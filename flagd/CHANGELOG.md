@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.16](https://github.com/james-milligan/flagd/compare/flagd/v0.2.15...flagd/v0.2.16) (2023-03-03)
+
+
+### ✨ New Features
+
+* cmon ([a43e430](https://github.com/james-milligan/flagd/commit/a43e43098a8cd1277201ed860df4114d61ac3109))
+* pleeeeeeeeease ([7d81553](https://github.com/james-milligan/flagd/commit/7d81553817525638ab4fee860b13d41521e03739))
+
 ## [0.2.15](https://github.com/james-milligan/flagd/compare/flagd/v0.2.14...flagd/v0.2.15) (2023-03-03)
 
 
