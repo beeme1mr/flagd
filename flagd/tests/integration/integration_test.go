@@ -9,5 +9,5 @@ var (
 
 func init() {
 	flag.StringVar(&tls, "tls", "false", "tls enabled for testing")
-	flag.StringVar(&certPath, "cert-path", "", "path to cert to use in tls tests")
+	flag.StringVar(&certPath, "cert-path", "", "path to cert to use in tls tests") //bump
 }
