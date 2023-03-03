@@ -150,8 +150,10 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
-      - name: Build flagd binary
+      - name: Workspace init
         run: make workspace-init
+
+      - name: Build flagd binary
         run: make build
 
       - name: Run flagd binary in background
