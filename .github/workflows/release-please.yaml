@@ -45,9 +45,6 @@ jobs:
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
 
     steps:
-      - name: echo
-        run: handling ${{ matrix.path }} release
-
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
