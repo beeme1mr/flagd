@@ -12,7 +12,7 @@ load test. Profiling is enabled through [go pprof package](https://pkg.go.dev/ne
 
 To enable pprof profiling, build a docker image with the `profile.Dockerfile`
 
-ex:- `docker build . -f ./profile.Dockerfile -t flagdprofile`
+ex:- `docker build . -f ./flagd/profile.Dockerfile -t flagdprofile`
 
 This image now exposes port `6060` for pprof data.
 
