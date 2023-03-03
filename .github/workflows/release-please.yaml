@@ -35,7 +35,7 @@ jobs:
     if: ${{ needs.release-please.outputs.release_please_output.releases_created }}
     strategy:
       matrix: 
-        path: ${{ fromJSON(release-please.outputs.release_please_output.paths_released) }}
+        path: ${{ fromJSON(needs.release-please.outputs.release_please_output.paths_released) }}
     steps:
       - name: echo
         run: echo ${matrix.path}
