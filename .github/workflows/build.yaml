@@ -56,6 +56,7 @@ jobs:
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
         with:
           go-version: ${{ env.GO_VERSION }}
+      - run: make workspace-init
       - run: make lint
 
   docs-check:
@@ -67,6 +68,7 @@ jobs:
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
         with:
           go-version: ${{ env.GO_VERSION }}
+      - run: make workspace-init
       - run: make generate-docs
       - name: Check no diff
         run: |
@@ -84,6 +86,7 @@ jobs:
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
         with:
           go-version: ${{ env.GO_VERSION }}
+      - run: make workspace-init
       - run: make test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70 # v3
