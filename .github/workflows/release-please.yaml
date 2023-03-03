@@ -39,7 +39,7 @@ jobs:
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
     steps:
       - name: echo
-        run: echo ${matrix.path}
+        run: echo ${{ matrix.path }}
 
 
   # container-release:
