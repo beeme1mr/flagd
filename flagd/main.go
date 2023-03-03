@@ -8,7 +8,7 @@ import (
 	"github.com/open-feature/flagd/flagd/cmd"
 )
 
-// bump 2
+// bump 2 3
 var (
 	version    = "dev"
 	commit     = "HEAD"

@@ -21,9 +21,15 @@ jobs:
           command: manifest
           token: ${{secrets.GITHUB_TOKEN}}
           default-branch: main
+      - name: Dump RELEASE_PLEASE_OUTPUT
+        env:
+          RELEASE_PLEASE_OUTPUT: ${{ toJson(steps.release.outputs) }}
+        run: |
+          echo "$RELEASE_PLEASE_OUTPUT"
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       release_tag_name: ${{ steps.release.outputs.tag_name }}
+      
 
   container-release:
     needs: release-please
@@ -137,20 +143,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  homebrew:
-    name: Bump homebrew-core formula
-    needs: release-please
-    runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.releases_created }}
-    steps:
-      - uses: mislav/bump-homebrew-formula-action@v2
-        with:
-          formula-name: flagd
-          tag-name: ${{ needs.release-please.outputs.release_tag_name }}
-          download-url: https://github.com/${{ github.repository }}.git
-          commit-message: |
-            {{formulaName}} {{version}}
+  # homebrew:
+  #   name: Bump homebrew-core formula
+  #   needs: release-please
+  #   runs-on: ubuntu-latest
+  #   if: ${{ needs.release-please.outputs.releases_created }}
+  #   steps:
+  #     - uses: mislav/bump-homebrew-formula-action@v2
+  #       with:
+  #         formula-name: flagd
+  #         tag-name: ${{ needs.release-please.outputs.release_tag_name }}
+  #         download-url: https://github.com/${{ github.repository }}.git
+  #         commit-message: |
+  #           {{formulaName}} {{version}}
 
-            Created by https://github.com/mislav/bump-homebrew-formula-action
-        env:
-          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+  #           Created by https://github.com/mislav/bump-homebrew-formula-action
+  #       env:
+  #         COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
