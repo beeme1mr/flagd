@@ -9,7 +9,7 @@ env:
   DEFAULT_GO_VERSION: 1.19.3
   PUBLIC_KEY_FILE: publicKey.pub
 
-name: release
+name: Release Please
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -41,8 +41,8 @@ jobs:
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
 
     env:
-      tag: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
-      version: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
+      TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
+      VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
 
     steps:
       - name: echo
@@ -51,7 +51,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
-          ref: ${{ $tag }}
+          ref: ${{ env.TAG }}
       
       - name: Log in to the Container registry
         uses: docker/login-action@ec9cdf07d570632daeb912f5b2099cb9ec1d01e6
@@ -89,10 +89,10 @@ jobs:
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ matrix.path }}:latest
-            ${{ env.REGISTRY }}/${{ matrix.path }}:${{ $version }}
+            ${{ env.REGISTRY }}/${{ matrix.path }}:${{ env.VERSION }}
           labels: ${{ steps.meta.outputs.labels }} 
           build-args: |
-            VERSION=${{ $version }}
+            VERSION=${{ env.VERSION }}
             COMMIT=${{ github.sha }}
             DATE=${{ steps.date.outputs.date }}
 
@@ -101,7 +101,7 @@ jobs:
 
       - name: Sign the image
         run: |
-          cosign sign --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ matrix.path }}:v${{ $tag }}
+          cosign sign --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ matrix.path }}:v${{ env.TAG }}
           cosign public-key --key env://COSIGN_PRIVATE_KEY --outfile ${{ env.PUBLIC_KEY_FILE }}
         env:
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
@@ -109,12 +109,12 @@ jobs:
       
       - name: Generate image SBOM file name
         id: image-sbom-file-gen
-        run: echo "IMG_SBOM_FILE=${{ format('{0}-{1}-sbom.spdx', matrix.path, $tag) }}" >> $GITHUB_OUTPUT
+        run: echo "IMG_SBOM_FILE=${{ format('{0}-{1}-sbom.spdx', matrix.path, env.TAG) }}" >> $GITHUB_OUTPUT
 
       - name: SBOM for latest image
         uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0
         with:
-          image: ${{ env.REGISTRY }}/${{ matrix.path }}:v${{ $tag }}
+          image: ${{ env.REGISTRY }}/${{ matrix.path }}:v${{ env.TAG }}
           artifact-name: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
 
       - name: Bundle release assets
