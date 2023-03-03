@@ -39,6 +39,7 @@ jobs:
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+        # we want to filter on the matrix to make sure we dont release on anything other than flagd / proxy changes
 
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
