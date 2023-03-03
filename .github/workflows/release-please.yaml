@@ -33,7 +33,7 @@ jobs:
   container-release:
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ needs.release-please.outputs.release_please_output.releases_created }}
+    if: ${{ needs.release-please.outputs.releases_created }}
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
