@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8](https://github.com/james-milligan/flagd/compare/kube-flagd-proxy-v0.2.7...kube-flagd-proxy/v0.2.8) (2023-03-03)
+
+
+### Features
+
+* please ([2cb4bd3](https://github.com/james-milligan/flagd/commit/2cb4bd362b2cd5483728b132809b6b308d31f1e2))
+
 ## [0.2.7](https://github.com/james-milligan/flagd/compare/kube-flagd-proxy-v0.2.7...kube-flagd-proxy-v0.2.7) (2023-03-03)
 
 
