@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
 		"It is designed to conform to Open Feature schema for flag definitions.",
 	Long:              ``,
 	DisableAutoGenTag: true,
-	// Uncomment the following line if your bare application
+	// Uncomment the following line if your bare application bump
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
 }
