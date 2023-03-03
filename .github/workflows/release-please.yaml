@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  REPO_OWNER: ${{ github.repository_owner }}
   DEFAULT_GO_VERSION: 1.19.3
   PUBLIC_KEY_FILE: publicKey.pub
 
@@ -85,8 +85,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ matrix.path }}:latest
-            ${{ env.REGISTRY }}/${{ matrix.path }}:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:latest
+            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:${{ env.VERSION }}
           labels: ${{ steps.meta.outputs.labels }} 
           build-args: |
             VERSION=${{ env.VERSION }}
