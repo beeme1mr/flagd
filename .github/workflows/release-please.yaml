@@ -93,8 +93,6 @@ jobs:
             VERSION=${{ env.VERSION }}
             COMMIT=${{ github.sha }}
             DATE=${{ steps.date.outputs.date }}
-        outputs:
-          image_digest: ${{ steps.build.outputs.digest }}
 
       # - name: Install Cosign
       #   uses: sigstore/cosign-installer@main
