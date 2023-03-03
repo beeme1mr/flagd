@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8](https://github.com/james-milligan/flagd/compare/flagd-v0.2.7...flagd-v0.2.8) (2023-03-03)
+
+
+### 🧹 Chore
+
+* release main ([3777057](https://github.com/james-milligan/flagd/commit/377705745f59f39e5c5ee300c60b300015eac1a4))
+
 ## [0.2.7](https://github.com/james-milligan/flagd/compare/flagd-v0.2.7...flagd-v0.2.7) (2023-03-03)
 
 
