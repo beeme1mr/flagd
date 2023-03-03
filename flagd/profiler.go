@@ -8,7 +8,7 @@ import (
 )
 
 /*
-Enable pprof profiler for flagd. Build controlled by the build tag "profile".
+Enable pprof profiler for flagd. Build controlled by the build tag "profile". bump
 */
 func init() {
 	// Go routine to server PProf

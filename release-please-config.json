@@ -1,4 +1,6 @@
 {
+  "monorepo-tags": true,
+  "tag-separator": "/",
   "bootstrap-sha": "c4e030ed651ab800aa56a555471da5913eb95259",
   "packages": {
     "flagd": {
