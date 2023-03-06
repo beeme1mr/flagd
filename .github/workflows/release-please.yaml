@@ -50,6 +50,12 @@ jobs:
       VERSION_NO_PREFIX: ${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
 
     steps:
+
+      - name: Set up Go
+        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
+        with:
+          go-version: ${{ env.DEFAULT_GO_VERSION }}
+
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
@@ -127,7 +133,7 @@ jobs:
           make workspace-init
           echo "bulding"
           env GOOS=linux GOARCH=arm64 go build -o ./bin/${{ matrix.path }} ./${{ matrix.path }}/main.go
-          echo "making tar"
+          echo "tar time"
           tar -cvzf ${{ matrix.path }}_${{ env.version_no_prefix }}_Darwin_arm64.tar.gz ./bin/${{ matrix.path }} ./LICENSE ./${{ matrix.path }}/CHANGELOG.md ./README.md
 
       - name: Bundle release assets
