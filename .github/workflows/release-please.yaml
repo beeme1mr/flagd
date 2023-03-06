@@ -136,6 +136,7 @@ jobs:
 
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
+      GORELEASER_CURRENT_TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
 
     steps:
       - name: Checkout
