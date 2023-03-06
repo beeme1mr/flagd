@@ -135,8 +135,7 @@ jobs:
         # we want to filter on the matrix to make sure we dont release on anything other than flagd / proxy changes
 
     env:
-      TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
-      VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
+      TAG: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
 
     steps:
       - name: Checkout
@@ -157,7 +156,6 @@ jobs:
         with:
           workdir: ${{ matrix.path }}
           args: release --rm-dist
-          version: ${{ env.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
