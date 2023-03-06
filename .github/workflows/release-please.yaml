@@ -123,8 +123,11 @@ jobs:
 
       - name: build darwin arm64
         run: |
+          echo "init workspace"
           make workspace-init
+          echo "bulding"
           env GOOS=darwin GOARCH=arm64 go build -o ./bin/${{ matrix.path }} ./${{ matrix.path }}/main.go
+          echo "making tar"
           tar -cvzf ${{ matrix.path }}_${{ env.version_no_prefix }}_Darwin_arm64.tar.gz ./bin/${{ matrix.path }} ./LICENSE ./${{ matrix.path }}/CHANGELOG.md ./README.md
 
       - name: Bundle release assets
