@@ -120,8 +120,8 @@ jobs:
 
       - name: build darwin arm64
         run: |
-          env GOOS=darwin GOARCH=arm64 go build ./${{ .matrix.path }}/main.go  -o ./bin/${{ .matrix.path }}
-          tar -cvzf ${{ .matrix.path }}_${{ env.version_no_prefix }}_Darwin_arm64.tar.gz ./bin/${{ .matrix.path }} ./LICENSE ./${{ .matrix.path }}/CHANGELOG.md ./README.md
+          env GOOS=darwin GOARCH=arm64 go build ./${{ matrix.path }}/main.go  -o ./bin/${{ matrix.path }}
+          tar -cvzf ${{ matrix.path }}_${{ env.version_no_prefix }}_Darwin_arm64.tar.gz ./bin/${{ matrix.path }} ./LICENSE ./${{ matrix.path }}/CHANGELOG.md ./README.md
 
       - name: Bundle release assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
