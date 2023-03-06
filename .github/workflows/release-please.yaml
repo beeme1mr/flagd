@@ -157,6 +157,7 @@ jobs:
         with:
           workdir: ${{ matrix.path }}
           args: release --rm-dist
+          version: ${{ env.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
