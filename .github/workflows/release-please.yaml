@@ -135,14 +135,13 @@ jobs:
         # we want to filter on the matrix to make sure we dont release on anything other than flagd / proxy changes
 
     env:
-      TAG: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
-      GIT_TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
+      TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
 
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
-          ref: ${{ env.GIT_TAG }}
+          ref: ${{ env.TAG }}
 
       - name: Set up Go
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
@@ -155,7 +154,7 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4
         with:
-          args: release --rm-dist -f ./${{ matrix.path }}/.goreleaser.yaml
+          args: release --clean -f ./flagd/.goreleaser.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
