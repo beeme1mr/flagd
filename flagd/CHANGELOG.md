@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.28](https://github.com/james-milligan/flagd/compare/flagd/v0.2.27...flagd/v0.2.28) (2023-03-06)
+
+
+### ✨ New Features
+
+* monorepo tags ([ce262e2](https://github.com/james-milligan/flagd/commit/ce262e2feaf579c9a0e80ac4732d8334c8b3d7f3))
+
 ## [0.2.27](https://github.com/james-milligan/flagd/compare/flagd/v0.2.26...flagd/v0.2.27) (2023-03-06)
 
 
