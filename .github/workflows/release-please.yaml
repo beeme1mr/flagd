@@ -136,12 +136,13 @@ jobs:
 
     env:
       TAG: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
+      GIT_TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
 
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
-          ref: ${{ env.TAG }}
+          ref: ${{ env.GIT_TAG }}
 
       - name: Set up Go
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
