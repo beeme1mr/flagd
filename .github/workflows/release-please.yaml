@@ -132,39 +132,39 @@ jobs:
             ${{ env.PUBLIC_KEY_FILE }}
             ./bin/*.tar.gz
 
-  go-release:
-    needs: release-please
-    runs-on: ubuntu-latest 
-    if: ${{ needs.release-please.outputs.releases_created }}
-    strategy:
-      matrix: 
-        path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
-        # we want to filter on the matrix to make sure we dont release on anything other than flagd / proxy changes
+  # go-release:
+  #   needs: release-please
+  #   runs-on: ubuntu-latest 
+  #   if: ${{ needs.release-please.outputs.releases_created }}
+  #   strategy:
+  #     matrix: 
+  #       path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+  #       # we want to filter on the matrix to make sure we dont release on anything other than flagd / proxy changes
 
-    env:
-      TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
-      GORELEASER_CURRENT_TAG: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
+  #   env:
+  #     TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
+  #     GORELEASER_CURRENT_TAG: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-        with:
-          ref: ${{ env.TAG }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+  #       with:
+  #         ref: ${{ env.TAG }}
 
-      - name: Set up Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
-        with:
-          go-version: ${{ env.DEFAULT_GO_VERSION }}
+  #     - name: Set up Go
+  #       uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
+  #       with:
+  #         go-version: ${{ env.DEFAULT_GO_VERSION }}
 
-      - name: Set up syft
-        uses: anchore/sbom-action/download-syft@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0
+  #     - name: Set up syft
+  #       uses: anchore/sbom-action/download-syft@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0
 
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4
-        with:
-          args: release --clean -f ./flagd/.goreleaser.yaml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Run GoReleaser
+  #       uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4
+  #       with:
+  #         args: release --clean -f ./flagd/.goreleaser.yaml
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # # homebrew:
   # #   name: Bump homebrew-core formula
