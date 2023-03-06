@@ -65,36 +65,36 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ matrix.path }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@master
-        with:
-          platforms: all
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@master
+      #   with:
+      #     platforms: all
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@master
+      # - name: Set up Docker Buildx
+      #   id: buildx
+      #   uses: docker/setup-buildx-action@master
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      # - name: Get current date
+      #   id: date
+      #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-      - name: Build
-        id: build
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4
-        with:
-          builder: ${{ steps.buildx.outputs.name }}
-          context: .
-          file: ./${{ matrix.path }}/build.Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:latest
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:${{ env.VERSION }}
-          labels: ${{ steps.meta.outputs.labels }} 
-          build-args: |
-            VERSION=${{ env.VERSION }}
-            COMMIT=${{ github.sha }}
-            DATE=${{ steps.date.outputs.date }}
+      # - name: Build
+      #   id: build
+      #   uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4
+      #   with:
+      #     builder: ${{ steps.buildx.outputs.name }}
+      #     context: .
+      #     file: ./${{ matrix.path }}/build.Dockerfile
+      #     platforms: linux/amd64,linux/arm64
+      #     push: true
+      #     tags: |
+      #       ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:latest
+      #       ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:${{ env.VERSION }}
+      #     labels: ${{ steps.meta.outputs.labels }} 
+      #     build-args: |
+      #       VERSION=${{ env.VERSION }}
+      #       COMMIT=${{ github.sha }}
+      #       DATE=${{ steps.date.outputs.date }}
 
       # - name: Install Cosign
       #   uses: sigstore/cosign-installer@main
@@ -107,29 +107,29 @@ jobs:
       #     COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
       #     COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
       
-      - name: Generate image SBOM file name
-        id: image-sbom-file-gen
-        run: echo "IMG_SBOM_FILE=${{ format('{0}-{1}-sbom.spdx', matrix.path, env.VERSION) }}" >> $GITHUB_OUTPUT
+      # - name: Generate image SBOM file name
+      #   id: image-sbom-file-gen
+      #   run: echo "IMG_SBOM_FILE=${{ format('{0}-{1}-sbom.spdx', matrix.path, env.VERSION) }}" >> $GITHUB_OUTPUT
 
-      - name: SBOM for latest image
-        uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0
-        with:
-          image: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:${{ env.VERSION }}
-          artifact-name: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
-          output-file: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
+      # - name: SBOM for latest image
+      #   uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0
+      #   with:
+      #     image: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:${{ env.VERSION }}
+      #     artifact-name: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
+      #     output-file: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
 
       - name: build darwin arm64
         run: |
-          env GOOS=darwin GOARCH=arm64 go build ./${{ matrix.path }}/main.go  -o ./bin/${{ matrix.path }}
+          env GOOS=darwin GOARCH=arm64 go build -o ./bin/${{ matrix.path }} ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.version_no_prefix }}_Darwin_arm64.tar.gz ./bin/${{ matrix.path }} ./LICENSE ./${{ matrix.path }}/CHANGELOG.md ./README.md
 
       - name: Bundle release assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           tag_name: ${{ env.TAG }}
+          # ${{ env.PUBLIC_KEY_FILE }}
+          # ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }} 
           files: |
-            ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }} 
-            ${{ env.PUBLIC_KEY_FILE }}
             ./bin/*.tar.gz
 
   # go-release:
