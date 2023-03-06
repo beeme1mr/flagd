@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.31](https://github.com/james-milligan/flagd/compare/flagd/v0.2.30...flagd/v0.2.31) (2023-03-06)
+
+
+### ✨ New Features
+
+* please ([63c668f](https://github.com/james-milligan/flagd/commit/63c668ffb1dcabdd8ee46d60d9c58e72d7ffb503))
+* replace fix ([fd923ee](https://github.com/james-milligan/flagd/commit/fd923ee4c3ddff30ae3cae9227bd5dd42faca8cf))
+
 ## [0.2.30](https://github.com/james-milligan/flagd/compare/flagd/v0.2.29...flagd/v0.2.30) (2023-03-06)
 
 
