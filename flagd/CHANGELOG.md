@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.23](https://github.com/james-milligan/flagd/compare/flagd/v0.2.22...flagd/v0.2.23) (2023-03-06)
+
+
+### ✨ New Features
+
+* gorelease ([9ed3483](https://github.com/james-milligan/flagd/commit/9ed3483e56f001f6c9a20a921f8d5a08de5b2276))
+* this ([53bd0ca](https://github.com/james-milligan/flagd/commit/53bd0ca73c1654c7921135e0886914b289820b8c))
+
 ## [0.2.22](https://github.com/james-milligan/flagd/compare/flagd/v0.2.21...flagd/v0.2.22) (2023-03-03)
 
 
