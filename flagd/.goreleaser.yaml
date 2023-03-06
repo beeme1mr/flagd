@@ -1,0 +1,5 @@
+project_name: flagd
+
+monorepo:
+  tag_prefix: flagd/
+  dir: flagd
