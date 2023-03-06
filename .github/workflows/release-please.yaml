@@ -31,8 +31,8 @@ jobs:
       # flagd_tag_name: ${{ steps.release.outputs.flagd--tag_name }}
       releases_created: true
       paths_released: "[\"flagd\"]"
-      flagd_version: "0.2.7"
-      flagd_tag_name: flagd/v0.2.7
+      flagd_version: "0.2.32"
+      flagd_tag_name: flagd/v0.2.32
       
   container-release:
     needs: release-please
