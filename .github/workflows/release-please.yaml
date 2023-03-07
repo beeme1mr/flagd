@@ -35,7 +35,7 @@ jobs:
       # flagd_version: "0.2.32"
       # flagd_tag_name: flagd/v0.2.32
       
-  container-release:
+  bundle-release:
     needs: release-please
     runs-on: ubuntu-latest 
     if: ${{ needs.release-please.outputs.releases_created }}
@@ -127,14 +127,51 @@ jobs:
           artifact-name: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
           output-file: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
 
+      - name: move assets
+        run: |
+          mv ./${{ matrix.path }}/CHANGELOG.md CHANGELOG.md 
+
       - name: build darwin arm64
         run: |
-          echo "init workspace"
           make workspace-init
-          echo "bulding"
-          env GOOS=linux GOARCH=arm64 go build -o ./bin/${{ matrix.path }} ./${{ matrix.path }}/main.go
-          echo "tar time"
-          tar -cvzf ${{ matrix.path }}_${{ env.version_no_prefix }}_Darwin_arm64.tar.gz ./bin/${{ matrix.path }} ./LICENSE ./${{ matrix.path }}/CHANGELOG.md ./README.md
+          env GOOS=darwin GOARCH=arm64 go build -o ./${{ matrix.path }}_darwin_arm64 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Darwin_arm64.tar.gz ./${{ matrix.path }}_darwin_arm64 ./LICENSE ./CHANGELOG.md ./README.md
+
+      - name: build darwin x86_64
+        run: |
+          make workspace-init
+          env GOOS=darwin GOARCH=amd64 go build -o ./${{ matrix.path }}_darwin_x86_64 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Darwin_x86_64.tar.gz ./${{ matrix.path }}_darwin_x86_64 ./LICENSE ./CHANGELOG.md ./README.md
+
+      - name: build linux arm64
+        run: |
+          make workspace-init
+          env GOOS=linux GOARCH=arm64 go build -o ./${{ matrix.path }}_linux_arm64 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Linux_arm64.tar.gz ./${{ matrix.path }}_linux_arm64 ./LICENSE ./CHANGELOG.md ./README.md
+
+      - name: build linux x86_64
+        run: |
+          make workspace-init
+          env GOOS=linux GOARCH=amd64 go build -o ./${{ matrix.path }}_linux_x86_64 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Linux_x86_64.tar.gz ./${{ matrix.path }}_linux_x86_64 ./LICENSE ./CHANGELOG.md ./README.md
+
+      - name: build linux i386
+        run: |
+          make workspace-init
+          env GOOS=linux GOARCH=386 go build -o ./${{ matrix.path }}_linux_i386 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Linux_i386.tar.gz ./${{ matrix.path }}_linux_i386 ./LICENSE ./CHANGELOG.md ./README.md
+
+      - name: build windows x86_64
+        run: |
+          make workspace-init
+          env GOOS=windows GOARCH=amd64 go build -o ./${{ matrix.path }}_windows_x86_64 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Windows_x86_64.tar.gz ./${{ matrix.path }}_windows_x86_64 ./LICENSE ./CHANGELOG.md ./README.md
+
+      - name: build windows i386
+        run: |
+          make workspace-init
+          env GOOS=windows GOARCH=386 go build -o ./${{ matrix.path }}_windows_i386 ./${{ matrix.path }}/main.go
+          tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Windows_i386.tar.gz ./${{ matrix.path }}_windows_i386 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: Bundle release assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
@@ -145,7 +182,7 @@ jobs:
             ${{ env.PUBLIC_KEY_FILE }}
             ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }} 
 
-  # go-release:
+    
   #   needs: release-please
   #   runs-on: ubuntu-latest 
   #   if: ${{ needs.release-please.outputs.releases_created }}
