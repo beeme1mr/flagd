@@ -119,7 +119,6 @@ jobs:
         run: echo "IMG_SBOM_FILE=${{ format('{0}-{1}-sbom.spdx', matrix.path, env.VERSION) }}" >> $GITHUB_OUTPUT
 
       - name: SBOM for latest image
-        if: ${{ matrix.path != '' }}
         uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0
         with:
           image: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ matrix.path }}:${{ env.VERSION }}
