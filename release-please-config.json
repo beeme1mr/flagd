@@ -1,7 +1,7 @@
 {
   "monorepo-tags": true,
   "tag-separator": "/",
-  "bootstrap-sha": "c4e030ed651ab800aa56a555471da5913eb95259",
+  "bootstrap-sha": "abd097c292c5784fceba24c1c3170d4344bc7ddc",
   "packages": {
     "flagd": {
       "release-type": "go",
