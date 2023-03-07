@@ -127,7 +127,7 @@ jobs:
             ${{ env.PUBLIC_KEY_FILE }}
             ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }} 
 
-  name: release-go-binaries
+  release-go-binaries:
     needs: release-please
     runs-on: ubuntu-latest 
     if: ${{ needs.release-please.outputs.releases_created }}
