@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-// here we go test
+// here we go test test 2
 
 func TestFieldStorageAndRetrieval(t *testing.T) {
 	tests := map[string]struct {

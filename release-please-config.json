@@ -74,9 +74,9 @@
       "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true
     },
-    "internal": {
+    "core": {
       "release-type": "go",
-      "package-name": "internal",
+      "package-name": "core",
       "versioning": "default",
       "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true
