@@ -14,7 +14,7 @@ subsequent XxxWithID log calls. To preserve performance ClearFields must be call
 requestID's thread is closed as a sync map is used internally.
 Child loggers can be created from a parent logger using the WithFields method, this child logger
 will append the provided fields to all logs, whilst maintaining a reference to the top level
-request fields pool.
+request fields pool.dwdwdwdw
 
 Example:
 
