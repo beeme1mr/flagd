@@ -46,11 +46,6 @@ jobs:
 
     steps:
 
-      - name: Set up Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
-        with:
-          go-version: ${{ env.DEFAULT_GO_VERSION }}
-
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
@@ -132,7 +127,7 @@ jobs:
             ${{ env.PUBLIC_KEY_FILE }}
             ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }} 
 
-    
+  name: release-go-binaries
     needs: release-please
     runs-on: ubuntu-latest 
     if: ${{ needs.release-please.outputs.releases_created }}
