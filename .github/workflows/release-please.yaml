@@ -127,49 +127,43 @@ jobs:
           artifact-name: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
           output-file: ${{ steps.image-sbom-file-gen.outputs.IMG_SBOM_FILE }}
 
-      - name: move assets
+      - name: setup for builds
         run: |
+          make workspace-init
           mv ./${{ matrix.path }}/CHANGELOG.md CHANGELOG.md 
 
       - name: build darwin arm64
         run: |
-          make workspace-init
           env GOOS=darwin GOARCH=arm64 go build -o ./${{ matrix.path }}_darwin_arm64 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Darwin_arm64.tar.gz ./${{ matrix.path }}_darwin_arm64 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: build darwin x86_64
         run: |
-          make workspace-init
           env GOOS=darwin GOARCH=amd64 go build -o ./${{ matrix.path }}_darwin_x86_64 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Darwin_x86_64.tar.gz ./${{ matrix.path }}_darwin_x86_64 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: build linux arm64
         run: |
-          make workspace-init
           env GOOS=linux GOARCH=arm64 go build -o ./${{ matrix.path }}_linux_arm64 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Linux_arm64.tar.gz ./${{ matrix.path }}_linux_arm64 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: build linux x86_64
         run: |
-          make workspace-init
           env GOOS=linux GOARCH=amd64 go build -o ./${{ matrix.path }}_linux_x86_64 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Linux_x86_64.tar.gz ./${{ matrix.path }}_linux_x86_64 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: build linux i386
         run: |
-          make workspace-init
           env GOOS=linux GOARCH=386 go build -o ./${{ matrix.path }}_linux_i386 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Linux_i386.tar.gz ./${{ matrix.path }}_linux_i386 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: build windows x86_64
         run: |
-          make workspace-init
           env GOOS=windows GOARCH=amd64 go build -o ./${{ matrix.path }}_windows_x86_64 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Windows_x86_64.tar.gz ./${{ matrix.path }}_windows_x86_64 ./LICENSE ./CHANGELOG.md ./README.md
 
       - name: build windows i386
         run: |
-          make workspace-init
           env GOOS=windows GOARCH=386 go build -o ./${{ matrix.path }}_windows_i386 ./${{ matrix.path }}/main.go
           tar -cvzf ${{ matrix.path }}_${{ env.VERSION_NO_PREFIX }}_Windows_i386.tar.gz ./${{ matrix.path }}_windows_i386 ./LICENSE ./CHANGELOG.md ./README.md
 
