@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.37](https://github.com/james-milligan/flagd/compare/flagd/v0.2.36...flagd/v0.2.37) (2023-03-07)
+
+
+### ✨ New Features
+
+* add sboms ([8ebe9a5](https://github.com/james-milligan/flagd/commit/8ebe9a56267594614d52d98cbdc7b4e2da7c4318))
+
 ## [0.2.36](https://github.com/james-milligan/flagd/compare/flagd/v0.2.35...flagd/v0.2.36) (2023-03-07)
 
 
