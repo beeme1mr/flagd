@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.34](https://github.com/james-milligan/flagd/compare/flagd/v0.2.33...flagd/v0.2.34) (2023-03-07)
+
+
+### ✨ New Features
+
+* tar time ([c290c70](https://github.com/james-milligan/flagd/commit/c290c70532432c015a6ef79693c16bd913dc591e))
+
 ## [0.2.33](https://github.com/james-milligan/flagd/compare/flagd/v0.2.32...flagd/v0.2.33) (2023-03-06)
 
 
