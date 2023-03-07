@@ -22,6 +22,10 @@ jobs:
           command: manifest
           token: ${{secrets.GITHUB_TOKEN}}
           default-branch: main
+          
+      #############################
+      ## Remove before merging
+      #############################
       - name: Dump RELEASE_PLEASE_OUTPUT
         run: |
           echo "$RELEASE_PLEASE_OUTPUT"
@@ -30,6 +34,8 @@ jobs:
       paths_released: ${{ steps.release.outputs.paths_released }}
       flagd_version: ${{ steps.release.outputs.flagd--version }}
       flagd_tag_name: ${{ steps.release.outputs.flagd--tag_name }}
+      kube-flagd-proxy_version: ${{ steps.release.outputs.kube-flagd-proxy--version }}
+      kube-flagd-proxy_tag_name: ${{ steps.release.outputs.kube-flagd-proxy--tag_name }}
       
   bundle-release:
     needs: release-please
@@ -38,8 +44,9 @@ jobs:
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
-        exclude:
-          - path: core
+        include:
+          - path: flagd
+          - path: kube-flagd-proxy
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
@@ -130,8 +137,9 @@ jobs:
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
-        exclude:
-          - path: core
+        include:
+          - path: flagd
+          - path: kube-flagd-proxy
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
@@ -201,20 +209,20 @@ jobs:
           files: |
             ./*.tar.gz
 
-  # # homebrew:
-  # #   name: Bump homebrew-core formula
-  # #   needs: release-please
-  # #   runs-on: ubuntu-latest
-  # #   if: ${{ needs.release-please.outputs.releases_created }}
-  # #   steps:
-  # #     - uses: mislav/bump-homebrew-formula-action@v2
-  # #       with:
-  # #         formula-name: flagd
-  # #         tag-name: ${{ needs.release-please.outputs.release_tag_name }}
-  # #         download-url: https://github.com/${{ github.repository }}.git
-  # #         commit-message: |
-  # #           {{formulaName}} {{version}}
+  homebrew:
+    name: Bump homebrew-core formula
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.head.repo.fork && needs.release-please.outputs.flagd_tag_name }}
+    steps:
+      - uses: mislav/bump-homebrew-formula-action@v2
+        with:
+          formula-name: flagd
+          tag-name: ${{ needs.release-please.outputs.flagd_tag_name }}
+          download-url: https://github.com/${{ github.repository }}.git
+          commit-message: |
+            {{formulaName}} {{version}}
 
-  # #           Created by https://github.com/mislav/bump-homebrew-formula-action
-  # #       env:
-  # #         COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+            Created by https://github.com/mislav/bump-homebrew-formula-action
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
