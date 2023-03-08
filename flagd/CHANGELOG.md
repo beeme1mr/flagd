@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.44](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.43...flagd/v0.2.44) (2023-03-08)
+
+
+### ✨ New Features
+
+* release all the things ([dff6579](https://github.com/beeme1mr/flagd/commit/dff65799ce88b48507e6817929181c6967f8bcde))
+
 ## [0.2.43](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.42...flagd/v0.2.43) (2023-03-08)
 
 
