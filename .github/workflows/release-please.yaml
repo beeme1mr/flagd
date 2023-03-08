@@ -194,6 +194,7 @@ jobs:
         with:
           tag_name: ${{ env.TAG }}
           files: |
+            ./sbom.xml
             ./*.tar.gz
 
   homebrew:
