@@ -39,9 +39,15 @@ jobs:
           DEPLOYABLE_ITEMS: '${{ steps.release.outputs.paths_released }}'
         with:
           script: |
+            console.log("pre: items to deploy", process.env.ITEMS_TO_DEPLOY);
             const itemsToDeploy = JSON.parse(process.env.ITEMS_TO_DEPLOY || '[]');
+            console.log("post: items to deploy", itemsToDeploy);
+            console.log("pre: deployable items", process.env.DEPLOYABLE_ITEMS);
             const deployableItems = JSON.parse(process.env.DEPLOYABLE_ITEMS || '[]');
-            return deployableItems.filter(i => itemsToDeploy.includes(i));
+            console.log("post: deployable items", deployableItems);
+            cons filtered = deployableItems.filter(i => itemsToDeploy.includes(i));
+            console.log("filtered items", filtered);
+            return filtered;
 
       - name: Determine if a deployment should occur
         uses: actions/github-script@v6
@@ -50,7 +56,10 @@ jobs:
             ITEMS: '${{steps.items-to-deploy.outputs.result}}'
         with:
           script: |
-            return JSON.parse(process.env.ITEMS || '[]') > 0;
+            console.log("pre: items to deploy", process.env.ITEMS);
+            const items = JSON.parse(process.env.ITEMS || '[]');
+            console.log("post: items to deploy", items);
+            return items;
     outputs:
       # releases_created: ${{ steps.release.outputs.releases_created }}
       # paths_released: ${{ steps.release.outputs.paths_released }}
