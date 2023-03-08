@@ -39,14 +39,14 @@ jobs:
           DEPLOYABLE_ITEMS: '${{ steps.release.outputs.paths_released }}'
         with:
           script: |
-            console.log("pre: items to deploy", process.env.ITEMS_TO_DEPLOY);
+            console.log(process.env.ITEMS_TO_DEPLOY);
             const itemsToDeploy = JSON.parse(process.env.ITEMS_TO_DEPLOY || '[]');
-            console.log("post: items to deploy", itemsToDeploy);
-            console.log("pre: deployable items", process.env.DEPLOYABLE_ITEMS);
+            console.log(itemsToDeploy);
+            console.log(process.env.DEPLOYABLE_ITEMS);
             const deployableItems = JSON.parse(process.env.DEPLOYABLE_ITEMS || '[]');
-            console.log("post: deployable items", deployableItems);
+            console.log(deployableItems);
             cons filtered = deployableItems.filter(i => itemsToDeploy.includes(i));
-            console.log("filtered items", filtered);
+            console.log(filtered);
             return filtered;
 
       - name: Determine if a deployment should occur
@@ -56,9 +56,9 @@ jobs:
             ITEMS: '${{steps.items-to-deploy.outputs.result}}'
         with:
           script: |
-            console.log("pre: items to deploy", process.env.ITEMS);
+            console.log(process.env.ITEMS);
             const items = JSON.parse(process.env.ITEMS || '[]');
-            console.log("post: items to deploy", items);
+            console.log(items);
             return items;
     outputs:
       # releases_created: ${{ steps.release.outputs.releases_created }}
