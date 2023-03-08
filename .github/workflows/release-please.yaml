@@ -42,13 +42,12 @@ jobs:
     name: Build and push containers to GHCR
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ needs.release-please.outputs.releases_created }}
+    # Expand as necessary
+    if: ${{ contains(fromJSON(needs.release-please.outputs.paths_released), 'flagd') }}
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
-        include:
-          - path: flagd
-          # - path: kube-flagd-proxy
+
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
@@ -102,9 +101,8 @@ jobs:
             COMMIT=${{ github.sha }}
             DATE=${{ steps.date.outputs.date }}
 
-      - uses: sigstore/cosign-installer@main
-        with:
-          cosign-release: 'v3.0.1'
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@bd2d1189b064bcddc3903176a807dcdba72d7fd0
 
       - name: Sign the image
         run: |
@@ -138,15 +136,12 @@ jobs:
     name: Create and publish binaries to GitHub
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ needs.release-please.outputs.releases_created }}
+    # TODO: chance once ready for e2e testing
+    if: ${{ contains(fromJSON(needs.release-please.outputs.paths_released), 'invalid') }}
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
-        include:
-          # TODO added as a quick way to skip this section since we know it works :)
-          - path: invalid
-          # - path: flagd
-          # - path: kube-flagd-proxy
+
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
