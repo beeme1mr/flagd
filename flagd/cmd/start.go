@@ -96,7 +96,7 @@ var startCmd = &cobra.Command{
 		rtLogger := logger.WithFields(zap.String("component", "start"))
 
 		rtLogger.Info(fmt.Sprintf("flagd version: %s (%s), built at: %s", Version, Commit, Date))
-		rtLogger.Info("My awesome new logging feature!!!")
+		rtLogger.Info("My awesome new logging feature!!!!")
 		if viper.GetString(syncProviderFlagName) != "" {
 			rtLogger.Warn("DEPRECATED: The --sync-provider flag has been deprecated. " +
 				"Docs: https://github.com/open-feature/flagd/blob/main/docs/configuration/configuration.md")
