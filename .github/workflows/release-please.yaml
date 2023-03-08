@@ -41,7 +41,7 @@ jobs:
           script: |
             const changedItems = JSON.parse(process.env.CHANGED_ITEMS || '[]');
             console.log("changed items", changedItems);
-            const eligibleItems = JSON.parse(process.env.ELIGIBLE_ITEMS || '[]');
+            const eligibleItems = JSON.parse(process.env.PUBLISHABLE_ITEMS || '[]');
             console.log("eligible items", eligibleItems);
             const itemsToPublish = changedItems.filter(i => eligibleItems.includes(i));
             console.log("filtered items", itemsToPublish);
