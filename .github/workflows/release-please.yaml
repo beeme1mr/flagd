@@ -24,10 +24,6 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           default-branch: main
           
-      - name: Log Release Please Output
-        run: echo "$RP_OUTPUT"
-        env:
-          RP_OUTPUT: ${{ fromJSON(steps.release.outputs) }}
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       paths_released: ${{ steps.release.outputs.paths_released }}
