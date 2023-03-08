@@ -4,8 +4,8 @@ on:
       - main
 
 env:
-  # Stringified list of items that should be deployed
-  ITEMS_TO_DEPLOY: '["flagd"]'
+  # Stringified list of items that should be published
+  PUBLISHABLE_ITEMS: '["flagd"]'
   REGISTRY: ghcr.io
   REPO_OWNER: ${{ github.repository_owner }}
   DEFAULT_GO_VERSION: 1.19
@@ -32,23 +32,23 @@ jobs:
         run: |
           echo "$RELEASE_PLEASE_OUTPUT"
 
-      - name: Determine what items should be deployed
+      - name: Determine what should be published
         uses: actions/github-script@v6
-        id: items-to-deploy
+        id: items-to-publish
         env:
-          DEPLOYABLE_ITEMS: '${{ steps.release.outputs.paths_released }}'
+          CHANGED_ITEMS: '${{ steps.release.outputs.paths_released }}'
         with:
           script: |
-            const itemsToDeploy = JSON.parse(process.env.ITEMS_TO_DEPLOY || '[]');
-            console.log("items to deploy", itemsToDeploy);
-            const deployableItems = JSON.parse(process.env.DEPLOYABLE_ITEMS || '[]');
-            console.log("deployable items", deployableItems);
-            const filtered = deployableItems.filter(i => itemsToDeploy.includes(i));
-            console.log("filtered items", filtered);
-            return filtered;
+            const changedItems = JSON.parse(process.env.CHANGED_ITEMS || '[]');
+            console.log("changed items", changedItems);
+            const eligibleItems = JSON.parse(process.env.ELIGIBLE_ITEMS || '[]');
+            console.log("eligible items", eligibleItems);
+            const itemsToPublish = changedItems.filter(i => eligibleItems.includes(i));
+            console.log("filtered items", itemsToPublish);
+            return itemsToPublish;
 
     outputs:
-      items_to_deploy: ${{ steps.items-to-deploy.outputs.result }}
+      items_to_publish: ${{ steps.items-to-publish.outputs.result }}
       flagd_version: ${{ steps.release.outputs.flagd--version }}
       flagd_tag_name: ${{ steps.release.outputs.flagd--tag_name }}
       kube-flagd-proxy_version: ${{ steps.release.outputs.kube-flagd-proxy--version }}
@@ -58,10 +58,10 @@ jobs:
     name: Build and push containers to GHCR
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ needs.release-please.outputs.items_to_deploy != '' && toJson(fromJson(needs.release-please.outputs.items_to_deploy)) != '[]' }}
+    if: ${{ needs.release-please.outputs.items_to_publish != '' && toJson(fromJson(needs.release-please.outputs.items_to_publish)) != '[]' }}
     strategy:
       matrix: 
-        path: ${{ fromJSON(needs.release-please.outputs.items_to_deploy) }}
+        path: ${{ fromJSON(needs.release-please.outputs.items_to_publish) }}
 
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
@@ -150,10 +150,10 @@ jobs:
     name: Create and publish binaries to GitHub
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ needs.release-please.outputs.items_to_deploy != '' && toJson(fromJson(needs.release-please.outputs.items_to_deploy)) != '[]' }}
+    if: ${{ needs.release-please.outputs.items_to_publish != '' && toJson(fromJson(needs.release-please.outputs.items_to_publish)) != '[]' }}
     strategy:
       matrix: 
-        path: ${{ fromJSON(needs.release-please.outputs.items_to_deploy) }}
+        path: ${{ fromJSON(needs.release-please.outputs.items_to_publish) }}
 
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
