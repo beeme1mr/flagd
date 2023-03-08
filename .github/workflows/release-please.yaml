@@ -25,7 +25,7 @@ jobs:
           default-branch: main
           
       - name: Log Release Please Output
-        run: echo "$RELEASE_PLEASE_OUTPUT"
+        run: echo "${{ toJSON(steps.release.outputs) }}"
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       paths_released: ${{ steps.release.outputs.paths_released }}
@@ -44,7 +44,7 @@ jobs:
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
         include:
           - path: flagd
-          - path: kube-flagd-proxy
+          # - path: kube-flagd-proxy
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
@@ -143,7 +143,7 @@ jobs:
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
         include:
           - path: flagd
-          - path: kube-flagd-proxy
+          # - path: kube-flagd-proxy
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
@@ -206,7 +206,7 @@ jobs:
     needs: release-please
     runs-on: ubuntu-latest
     # Only run on non-forked flagd releases
-    if: ${{ !github.event.pull_request.head.repo.fork && needs.release-please.outputs.flagd_tag_name }}
+    if: ${{ github.repository_owner = "openfeature" && needs.release-please.outputs.flagd_tag_name }}
     steps:
       - uses: mislav/bump-homebrew-formula-action@v2
         with:
