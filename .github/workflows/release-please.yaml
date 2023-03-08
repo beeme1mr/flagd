@@ -46,9 +46,6 @@ jobs:
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
       VERSION: v${{ needs.release-please.outputs[format('{0}_version', matrix.path)] }}
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
