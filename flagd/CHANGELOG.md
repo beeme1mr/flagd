@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.48](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.47...flagd/v0.2.48) (2023-03-08)
+
+
+### ✨ New Features
+
+* remove useless log ([c9d0dd8](https://github.com/beeme1mr/flagd/commit/c9d0dd8b69528970695e4598c2f8650d8f23fe5b))
+
 ## [0.2.47](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.46...flagd/v0.2.47) (2023-03-08)
 
 
