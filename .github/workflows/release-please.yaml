@@ -44,7 +44,7 @@ jobs:
             const eligibleItems = JSON.parse(process.env.PUBLISHABLE_ITEMS || '[]');
             console.log("eligible items", eligibleItems);
             const itemsToPublish = changedItems.filter(i => eligibleItems.includes(i));
-            console.log("filtered items", itemsToPublish);
+            console.log("items to publish", itemsToPublish);
             return itemsToPublish;
 
     outputs:
