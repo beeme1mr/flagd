@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.47](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.46...flagd/v0.2.47) (2023-03-08)
+
+
+### 🐛 Bug Fixes
+
+* bugz ([44e7ee6](https://github.com/beeme1mr/flagd/commit/44e7ee6021e0b06b0db964bfc13557ee325be93e))
+
 ## [0.2.46](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.45...flagd/v0.2.46) (2023-03-08)
 
 
