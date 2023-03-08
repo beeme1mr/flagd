@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.40](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.39...flagd/v0.2.40) (2023-03-08)
+
+
+### ✨ New Features
+
+* tone down the excitement ([f086413](https://github.com/beeme1mr/flagd/commit/f086413f2a0edc4877cb659ff59f214b1bc03619))
+
 ## [0.2.39](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.38...flagd/v0.2.39) (2023-03-08)
 
 
