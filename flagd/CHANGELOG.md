@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.42](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.41...flagd/v0.2.42) (2023-03-08)
+
+
+### ✨ New Features
+
+* added punctuation ([a63d0ec](https://github.com/beeme1mr/flagd/commit/a63d0ec19602133d6df139361d563994df1a54e2))
+
 ## [0.2.41](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.40...flagd/v0.2.41) (2023-03-08)
 
 
