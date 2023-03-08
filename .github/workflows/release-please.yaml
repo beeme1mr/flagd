@@ -4,6 +4,8 @@ on:
       - main
 
 env:
+  # Stringified list of items that should be deployed
+  ITEMS_TO_DEPLOY: '["flagd"]'
   REGISTRY: ghcr.io
   REPO_OWNER: ${{ github.repository_owner }}
   DEFAULT_GO_VERSION: 1.19
@@ -29,10 +31,31 @@ jobs:
           RELEASE_PLEASE_OUTPUT: ${{ toJson(steps.release.outputs) }}
         run: |
           echo "$RELEASE_PLEASE_OUTPUT"
-          
+
+      - name: Determine what items should be deployed
+        uses: actions/github-script@v6
+        id: items-to-deploy
+        env:
+          DEPLOYABLE_ITEMS: '${{ steps.release.outputs.paths_released }}'
+        with:
+          script: |
+            const itemsToDeploy = JSON.parse(process.env.ITEMS_TO_DEPLOY || '[]');
+            const deployableItems = JSON.parse(process.env.DEPLOYABLE_ITEMS || '[]');
+            return deployableItems.filter(i => itemsToDeploy.includes(i));
+
+      - name: Determine if a deployment should occur
+        uses: actions/github-script@v6
+        id: should-deploy
+        env:
+            ITEMS: '${{steps.items-to-deploy.outputs.result}}'
+        with:
+          script: |
+            return JSON.parse(process.env.ITEMS || '[]') > 0;
     outputs:
-      releases_created: ${{ steps.release.outputs.releases_created }}
-      paths_released: ${{ steps.release.outputs.paths_released }}
+      # releases_created: ${{ steps.release.outputs.releases_created }}
+      # paths_released: ${{ steps.release.outputs.paths_released }}
+      should_deploy: ${{ steps.should-deploy.outputs.result }}
+      items_to_deploy: ${{ steps.items-to-deploy.outputs.result }}
       flagd_version: ${{ steps.release.outputs.flagd--version }}
       flagd_tag_name: ${{ steps.release.outputs.flagd--tag_name }}
       kube-flagd-proxy_version: ${{ steps.release.outputs.kube-flagd-proxy--version }}
@@ -42,11 +65,10 @@ jobs:
     name: Build and push containers to GHCR
     needs: release-please
     runs-on: ubuntu-latest 
-    # Expand as necessary
-    if: ${{ contains(fromJSON(needs.release-please.outputs.paths_released), 'flagd') }}
+    if: ${{ fromJSON(needs.release-please.outputs.should_deploy) }}
     strategy:
       matrix: 
-        path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+        path: ${{ fromJSON(needs.release-please.outputs.items_to_deploy) }}
 
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
@@ -135,11 +157,10 @@ jobs:
     name: Create and publish binaries to GitHub
     needs: release-please
     runs-on: ubuntu-latest 
-    # TODO: chance once ready for e2e testing
-    if: ${{ contains(fromJSON(needs.release-please.outputs.paths_released), 'invalid') }}
+    if: ${{ fromJSON(needs.release-please.outputs.should_deploy) }}
     strategy:
       matrix: 
-        path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+        path: ${{ fromJSON(needs.release-please.outputs.items_to_deploy) }}
 
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
