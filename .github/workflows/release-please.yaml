@@ -45,7 +45,7 @@ jobs:
             console.log(process.env.DEPLOYABLE_ITEMS);
             const deployableItems = JSON.parse(process.env.DEPLOYABLE_ITEMS || '[]');
             console.log(deployableItems);
-            cons filtered = deployableItems.filter(i => itemsToDeploy.includes(i));
+            const filtered = deployableItems.filter(i => itemsToDeploy.includes(i));
             console.log(filtered);
             return filtered;
 
