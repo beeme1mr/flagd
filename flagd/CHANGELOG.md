@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.39](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.38...flagd/v0.2.39) (2023-03-08)
+
+
+### ✨ New Features
+
+* even more excitement ([63cf61e](https://github.com/beeme1mr/flagd/commit/63cf61e37e28213e0cc8a346e568e723126b3057))
+
 ## [0.2.38](https://github.com/beeme1mr/flagd/compare/flagd-v0.2.37...flagd/v0.2.38) (2023-03-08)
 
 
