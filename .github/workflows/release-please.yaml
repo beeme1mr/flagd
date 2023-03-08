@@ -39,31 +39,15 @@ jobs:
           DEPLOYABLE_ITEMS: '${{ steps.release.outputs.paths_released }}'
         with:
           script: |
-            console.log(process.env.ITEMS_TO_DEPLOY);
             const itemsToDeploy = JSON.parse(process.env.ITEMS_TO_DEPLOY || '[]');
-            console.log(itemsToDeploy);
-            console.log(process.env.DEPLOYABLE_ITEMS);
+            console.log("items to deploy", itemsToDeploy);
             const deployableItems = JSON.parse(process.env.DEPLOYABLE_ITEMS || '[]');
-            console.log(deployableItems);
+            console.log("deployable items", deployableItems);
             const filtered = deployableItems.filter(i => itemsToDeploy.includes(i));
-            console.log(filtered);
+            console.log("filtered items", filtered);
             return filtered;
 
-      - name: Determine if a deployment should occur
-        uses: actions/github-script@v6
-        id: should-deploy
-        env:
-            ITEMS: '${{steps.items-to-deploy.outputs.result}}'
-        with:
-          script: |
-            console.log(process.env.ITEMS);
-            const items = JSON.parse(process.env.ITEMS || '[]');
-            console.log(items);
-            return items;
     outputs:
-      # releases_created: ${{ steps.release.outputs.releases_created }}
-      # paths_released: ${{ steps.release.outputs.paths_released }}
-      should_deploy: ${{ steps.should-deploy.outputs.result }}
       items_to_deploy: ${{ steps.items-to-deploy.outputs.result }}
       flagd_version: ${{ steps.release.outputs.flagd--version }}
       flagd_tag_name: ${{ steps.release.outputs.flagd--tag_name }}
@@ -74,7 +58,7 @@ jobs:
     name: Build and push containers to GHCR
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ fromJSON(needs.release-please.outputs.should_deploy) }}
+    if: ${{ needs.release-please.outputs.items_to_deploy != '' && toJson(fromJson(needs.release-please.outputs.items_to_deploy)) != '[]' }}
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.items_to_deploy) }}
@@ -166,7 +150,7 @@ jobs:
     name: Create and publish binaries to GitHub
     needs: release-please
     runs-on: ubuntu-latest 
-    if: ${{ fromJSON(needs.release-please.outputs.should_deploy) }}
+    if: ${{ needs.release-please.outputs.items_to_deploy != '' && toJson(fromJson(needs.release-please.outputs.items_to_deploy)) != '[]' }}
     strategy:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.items_to_deploy) }}
