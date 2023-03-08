@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.45](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.44...flagd/v0.2.45) (2023-03-08)
+
+
+### 🐛 Bug Fixes
+
+* excitement level ([a399719](https://github.com/beeme1mr/flagd/commit/a39971920349ea5abef429417ad1a201ba19dfb1))
+
 ## [0.2.44](https://github.com/beeme1mr/flagd/compare/flagd/v0.2.43...flagd/v0.2.44) (2023-03-08)
 
 
