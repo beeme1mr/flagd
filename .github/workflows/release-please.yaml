@@ -137,7 +137,9 @@ jobs:
       matrix: 
         path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
         include:
-          - path: flagd
+          # TODO added as a quick way to skip this section since we know it works :)
+          - path: invalid
+          # - path: flagd
           # - path: kube-flagd-proxy
     env:
       TAG: ${{ needs.release-please.outputs[format('{0}_tag_name', matrix.path)] }} 
@@ -197,6 +199,8 @@ jobs:
             ./sbom.xml
             ./*.tar.gz
 
+  # TODO: Update the Homebrew build process
+  # https://github.com/Homebrew/homebrew-core/blob/master/Formula/flagd.rb
   homebrew:
     name: Bump homebrew-core formula
     needs: release-please
