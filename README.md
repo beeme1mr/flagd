@@ -34,8 +34,6 @@ flagd is a feature flag daemon with a Unix philosophy. Think of it as a ready-ma
 
 ## ▶️ Quick Start
 
-Experiment with flagd in your browser using [the Killercoda tutorial](https://killercoda.com/open-feature/scenario/flagd-demo) or follow the instructions below to run on your own infrastructure.
-
 1. flagd can be run as a standalone binary or container. [Download and install flagd or run it as a container](https://flagd.dev/installation/)
 
    Kubernetes-native? flagd can also be run [as part of the Kubernetes Operator](https://github.com/open-feature/open-feature-operator).
