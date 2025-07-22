@@ -81,13 +81,10 @@ func (fs *Sync) Init(ctx context.Context) error {
 
 func (fs *Sync) IsReady() bool {
 	fs.Mux.RLock()
-	defer fs.Mux.RUnlock()
 	return fs.ready
 }
 
 func (fs *Sync) setReady(val bool) {
-	fs.Mux.Lock()
-	defer fs.Mux.Unlock()
 	fs.ready = val
 }
 
